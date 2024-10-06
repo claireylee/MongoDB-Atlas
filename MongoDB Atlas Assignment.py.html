@@ -1,0 +1,140 @@
+<html>
+<head>
+<title>MongoDB Atlas Assignment.py</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #6aab73;}
+.s4 { color: #7a7e85;}
+.s5 { color: #2aacb8;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+MongoDB Atlas Assignment.py</font>
+</center></td></tr></table>
+<pre><span class="s0">from </span><span class="s1">pymongo </span><span class="s0">import </span><span class="s1">MongoClient</span>
+<span class="s1">connection_string </span><span class="s2">= </span><span class="s3">'mongodb+srv://ngt9dz:Cookies1@cluster1.3osh6.mongodb.net/?retryWrites=true&amp;w=majority&amp;appName=Cluster1'</span>
+<span class="s1">client </span><span class="s2">= </span><span class="s1">MongoClient</span><span class="s2">(</span><span class="s1">connection_string</span><span class="s2">)</span>
+<span class="s1">db </span><span class="s2">= </span><span class="s1">client</span><span class="s2">[</span><span class="s3">'sample_mflix'</span><span class="s2">]</span>
+<span class="s1">collection </span><span class="s2">= </span><span class="s1">db</span><span class="s2">[</span><span class="s3">'movies'</span><span class="s2">]</span>
+<span class="s1">print</span><span class="s2">(</span><span class="s1">collection</span><span class="s2">.</span><span class="s1">find_one</span><span class="s2">())</span>
+
+<span class="s4">#EXERCISE 1</span>
+<span class="s4">#1. find the first movie with the genre &quot;Action&quot;</span>
+<span class="s1">action_movie </span><span class="s2">= </span><span class="s1">collection</span><span class="s2">.</span><span class="s1">find_one</span><span class="s2">({</span><span class="s3">&quot;genres&quot;</span><span class="s2">: </span><span class="s3">&quot;Actions&quot;</span><span class="s2">})</span>
+<span class="s1">print</span><span class="s2">(</span><span class="s3">&quot;First Action movie:&quot;</span><span class="s2">, </span><span class="s1">action_movie</span><span class="s2">)</span>
+
+<span class="s4">#2. find all movies released after the year 2000 (limit to 5)</span>
+<span class="s1">movies_after_2000 </span><span class="s2">= </span><span class="s1">collection</span><span class="s2">.</span><span class="s1">find</span><span class="s2">({</span><span class="s3">&quot;year&quot;</span><span class="s2">: {</span><span class="s3">&quot;$gt&quot;</span><span class="s2">: </span><span class="s5">2000</span><span class="s2">}}).</span><span class="s1">limit</span><span class="s2">(</span><span class="s5">5</span><span class="s2">)</span>
+<span class="s1">print</span><span class="s2">(</span><span class="s3">&quot;Movies released after 2000:&quot;</span><span class="s2">)</span>
+<span class="s0">for </span><span class="s1">movie </span><span class="s0">in </span><span class="s1">movies_after_2000</span><span class="s2">:</span>
+    <span class="s1">print</span><span class="s2">(</span><span class="s1">movie</span><span class="s2">)</span>
+
+<span class="s4">#3. find all movies with IMDb rating greater than 8.5 (limit to 5)</span>
+<span class="s1">high_rated_movies </span><span class="s2">= </span><span class="s1">collection</span><span class="s2">.</span><span class="s1">find</span><span class="s2">({</span><span class="s3">&quot;imdb.rating&quot;</span><span class="s2">: {</span><span class="s3">&quot;$gt&quot;</span><span class="s2">: </span><span class="s5">8.5</span><span class="s2">}}).</span><span class="s1">limit</span><span class="s2">(</span><span class="s5">5</span><span class="s2">)</span>
+<span class="s1">print</span><span class="s2">(</span><span class="s3">&quot;Movies with IMDb rating &gt; 8.5:&quot;</span><span class="s2">)</span>
+<span class="s0">for </span><span class="s1">movie </span><span class="s0">in </span><span class="s1">high_rated_movies</span><span class="s2">:</span>
+    <span class="s1">print</span><span class="s2">(</span><span class="s1">movie</span><span class="s2">)</span>
+
+<span class="s4">#4. find all movies with genres containing both &quot;Action&quot; and &quot;Adventure&quot;</span>
+<span class="s1">action_adventure_movies </span><span class="s2">= </span><span class="s1">collection</span><span class="s2">.</span><span class="s1">find</span><span class="s2">({</span><span class="s3">&quot;genres&quot;</span><span class="s2">:{</span><span class="s3">&quot;$all&quot;</span><span class="s2">: [</span><span class="s3">&quot;Action&quot;</span><span class="s2">, </span><span class="s3">&quot;Adventure&quot;</span><span class="s2">]}}).</span><span class="s1">limit</span><span class="s2">(</span><span class="s5">5</span><span class="s2">)</span>
+<span class="s1">print</span><span class="s2">(</span><span class="s3">&quot;Action and Adventure movies:&quot;</span><span class="s2">)</span>
+<span class="s0">for </span><span class="s1">movie </span><span class="s0">in </span><span class="s1">action_adventure_movies</span><span class="s2">:</span>
+    <span class="s1">print</span><span class="s2">(</span><span class="s1">movie</span><span class="s2">)</span>
+
+<span class="s4">#EXERCISE 2</span>
+<span class="s4"># 1. find all movies where the genre is &quot;Comedy&quot; and sort by IMDb rating in descending order (limit to 5)</span>
+<span class="s1">sorted_comedy_movies </span><span class="s2">= </span><span class="s1">collection</span><span class="s2">.</span><span class="s1">find</span><span class="s2">({</span><span class="s3">&quot;genres&quot;</span><span class="s2">: </span><span class="s3">&quot;Comedy&quot;</span><span class="s2">}).</span><span class="s1">sort</span><span class="s2">(</span><span class="s3">&quot;imdb.rating&quot;</span><span class="s2">, -</span><span class="s5">1</span><span class="s2">).</span><span class="s1">limit</span><span class="s2">(</span><span class="s5">5</span><span class="s2">)</span>
+<span class="s1">print</span><span class="s2">(</span><span class="s3">&quot;Top 5 Comedy movies sorted by IMDb rating:&quot;</span><span class="s2">)</span>
+<span class="s0">for </span><span class="s1">movie </span><span class="s0">in </span><span class="s1">sorted_comedy_movies</span><span class="s2">:</span>
+    <span class="s1">print</span><span class="s2">(</span><span class="s1">movie</span><span class="s2">)</span>
+
+<span class="s4"># 2. find all movies where the genre is &quot;Drama&quot; and sort by release year in ascending order (limit to 5)</span>
+<span class="s1">sorted_drama_movies </span><span class="s2">= </span><span class="s1">collection</span><span class="s2">.</span><span class="s1">find</span><span class="s2">({</span><span class="s3">&quot;genres&quot;</span><span class="s2">: </span><span class="s3">&quot;Drama&quot;</span><span class="s2">}).</span><span class="s1">sort</span><span class="s2">(</span><span class="s3">&quot;year&quot;</span><span class="s2">, </span><span class="s5">1</span><span class="s2">).</span><span class="s1">limit</span><span class="s2">(</span><span class="s5">5</span><span class="s2">)</span>
+<span class="s1">print</span><span class="s2">(</span><span class="s3">&quot;Top 5 Drama movies sorted by release year:&quot;</span><span class="s2">)</span>
+<span class="s0">for </span><span class="s1">movie </span><span class="s0">in </span><span class="s1">sorted_drama_movies</span><span class="s2">:</span>
+    <span class="s1">print</span><span class="s2">(</span><span class="s1">movie</span><span class="s2">)</span>
+
+<span class="s4">#EXERCISE 3</span>
+<span class="s4"># 1. calculate the average IMDb rating for each genre (Return top 5 genres)</span>
+<span class="s1">avg_rating_by_genre </span><span class="s2">= </span><span class="s1">collection</span><span class="s2">.</span><span class="s1">aggregate</span><span class="s2">([</span>
+    <span class="s2">{</span><span class="s3">&quot;$unwind&quot;</span><span class="s2">: </span><span class="s3">&quot;$genres&quot;</span><span class="s2">},</span>
+    <span class="s2">{</span><span class="s3">&quot;$group&quot;</span><span class="s2">: {</span><span class="s3">&quot;_id&quot;</span><span class="s2">: </span><span class="s3">&quot;$genres&quot;</span><span class="s2">, </span><span class="s3">&quot;avg_rating&quot;</span><span class="s2">: {</span><span class="s3">&quot;$avg&quot;</span><span class="s2">: </span><span class="s3">&quot;$imdb.rating&quot;</span><span class="s2">}}},</span>
+    <span class="s2">{</span><span class="s3">&quot;$sort&quot;</span><span class="s2">: {</span><span class="s3">&quot;avg_rating&quot;</span><span class="s2">: -</span><span class="s5">1</span><span class="s2">}},</span>
+    <span class="s2">{</span><span class="s3">&quot;$limit&quot;</span><span class="s2">: </span><span class="s5">5</span><span class="s2">}</span>
+<span class="s2">])</span>
+<span class="s1">print</span><span class="s2">(</span><span class="s3">&quot;Top 5 genres by average IMDb rating:&quot;</span><span class="s2">)</span>
+<span class="s0">for </span><span class="s1">genre </span><span class="s0">in </span><span class="s1">avg_rating_by_genre</span><span class="s2">:</span>
+    <span class="s1">print</span><span class="s2">(</span><span class="s1">genre</span><span class="s2">)</span>
+
+<span class="s4"># 2. find the top 5 directors by the average IMDb rating of their movies</span>
+<span class="s1">top_directors </span><span class="s2">= </span><span class="s1">collection</span><span class="s2">.</span><span class="s1">aggregate</span><span class="s2">([</span>
+    <span class="s2">{</span><span class="s3">&quot;$group&quot;</span><span class="s2">: {</span><span class="s3">&quot;_id&quot;</span><span class="s2">: </span><span class="s3">&quot;$directors&quot;</span><span class="s2">, </span><span class="s3">&quot;avg_rating&quot;</span><span class="s2">: {</span><span class="s3">&quot;$avg&quot;</span><span class="s2">: </span><span class="s3">&quot;$imdb.rating&quot;</span><span class="s2">}}},</span>
+    <span class="s2">{</span><span class="s3">&quot;$sort&quot;</span><span class="s2">: {</span><span class="s3">&quot;avg_rating&quot;</span><span class="s2">: -</span><span class="s5">1</span><span class="s2">}},</span>
+    <span class="s2">{</span><span class="s3">&quot;$limit&quot;</span><span class="s2">: </span><span class="s5">5</span><span class="s2">}</span>
+<span class="s2">])</span>
+<span class="s1">print</span><span class="s2">(</span><span class="s3">&quot;Top 5 directors by average IMDb rating:&quot;</span><span class="s2">)</span>
+<span class="s0">for </span><span class="s1">director </span><span class="s0">in </span><span class="s1">top_directors</span><span class="s2">:</span>
+    <span class="s1">print</span><span class="s2">(</span><span class="s1">director</span><span class="s2">)</span>
+
+<span class="s4"># 3. calculate the total number of movies released in each year, sorted by year</span>
+<span class="s1">movies_per_year </span><span class="s2">= </span><span class="s1">collection</span><span class="s2">.</span><span class="s1">aggregate</span><span class="s2">([</span>
+    <span class="s2">{</span><span class="s3">&quot;$group&quot;</span><span class="s2">: {</span><span class="s3">&quot;_id&quot;</span><span class="s2">: </span><span class="s3">&quot;$year&quot;</span><span class="s2">, </span><span class="s3">&quot;total_movies&quot;</span><span class="s2">: {</span><span class="s3">&quot;$sum&quot;</span><span class="s2">: </span><span class="s5">1</span><span class="s2">}}},</span>
+    <span class="s2">{</span><span class="s3">&quot;$sort&quot;</span><span class="s2">: {</span><span class="s3">&quot;_id&quot;</span><span class="s2">: </span><span class="s5">1</span><span class="s2">}}</span>
+<span class="s2">])</span>
+<span class="s1">print</span><span class="s2">(</span><span class="s3">&quot;Total number of movies released per year:&quot;</span><span class="s2">)</span>
+<span class="s0">for </span><span class="s1">year </span><span class="s0">in </span><span class="s1">movies_per_year</span><span class="s2">:</span>
+    <span class="s1">print</span><span class="s2">(</span><span class="s1">year</span><span class="s2">)</span>
+
+<span class="s4">#EXERCISE 4</span>
+<span class="s4"># 1. update the IMDb rating of &quot;The Godfather&quot; to 9.5</span>
+<span class="s1">collection</span><span class="s2">.</span><span class="s1">update_one</span><span class="s2">({</span><span class="s3">&quot;title&quot;</span><span class="s2">: </span><span class="s3">&quot;The Godfather&quot;</span><span class="s2">}, {</span><span class="s3">&quot;$set&quot;</span><span class="s2">: {</span><span class="s3">&quot;imdb.rating&quot;</span><span class="s2">: </span><span class="s5">9.5</span><span class="s2">}})</span>
+<span class="s1">print</span><span class="s2">(</span><span class="s3">&quot;Updated IMDb rating of The Godfather to 9.5&quot;</span><span class="s2">)</span>
+
+<span class="s4"># 2. update all Horror movies with IMDb rating set to 6.0 if it's currently null</span>
+<span class="s1">collection</span><span class="s2">.</span><span class="s1">update_many</span><span class="s2">({</span><span class="s3">&quot;genres&quot;</span><span class="s2">: </span><span class="s3">&quot;Horror&quot;</span><span class="s2">, </span><span class="s3">&quot;imdb.rating&quot;</span><span class="s2">: {</span><span class="s3">&quot;$exists&quot;</span><span class="s2">: </span><span class="s0">False</span><span class="s2">}}, {</span><span class="s3">&quot;$set&quot;</span><span class="s2">: {</span><span class="s3">&quot;imdb.rating&quot;</span><span class="s2">: </span><span class="s5">6.0</span><span class="s2">}})</span>
+<span class="s1">print</span><span class="s2">(</span><span class="s3">&quot;Set IMDb rating to 6.0 for all Horror movies with no rating&quot;</span><span class="s2">)</span>
+
+<span class="s4"># 3. delete all movies released before the year 1950</span>
+<span class="s1">collection</span><span class="s2">.</span><span class="s1">delete_many</span><span class="s2">({</span><span class="s3">&quot;year&quot;</span><span class="s2">: {</span><span class="s3">&quot;$lt&quot;</span><span class="s2">: </span><span class="s5">1950</span><span class="s2">}})</span>
+<span class="s1">print</span><span class="s2">(</span><span class="s3">&quot;Deleted all movies released before 1950&quot;</span><span class="s2">)</span>
+
+<span class="s4">#EXERCISE 5</span>
+<span class="s4"># ensure the title field is indexed for text search</span>
+<span class="s4"># word &quot;love&quot;</span>
+<span class="s1">love_movies </span><span class="s2">= </span><span class="s1">collection</span><span class="s2">.</span><span class="s1">find</span><span class="s2">({</span>
+    <span class="s3">&quot;$text&quot;</span><span class="s2">: {</span><span class="s3">&quot;$search&quot;</span><span class="s2">: </span><span class="s3">&quot;love&quot;</span><span class="s2">},</span>
+    <span class="s3">&quot;title&quot;</span><span class="s2">: {</span><span class="s3">&quot;$regex&quot;</span><span class="s2">: </span><span class="s3">&quot;love&quot;</span><span class="s2">, </span><span class="s3">&quot;$options&quot;</span><span class="s2">: </span><span class="s3">&quot;i&quot;</span><span class="s2">}  </span><span class="s4"># Ensure the word 'love' is in the title</span>
+<span class="s2">})</span>
+<span class="s0">for </span><span class="s1">movie </span><span class="s0">in </span><span class="s1">love_movies</span><span class="s2">:</span>
+    <span class="s1">print</span><span class="s2">(</span><span class="s1">movie</span><span class="s2">)</span>
+
+<span class="s4"># 2. text search for movies with 'war' in title or plot, sorted by IMDb rating (limit to 5)war_movies = collection.find({</span>
+<span class="s4">#     &quot;$text&quot;: {&quot;$search&quot;: &quot;war&quot;}</span>
+<span class="s4"># }).sort(&quot;imdb.rating&quot;, -1).limit(5)</span>
+<span class="s4">#</span>
+<span class="s4"># for movie in war_movies:</span>
+<span class="s4">#     print(movie)</span>
+
+<span class="s4">#EXERCISE 6</span>
+<span class="s4"># 1. find all Action movies with IMDb rating greater than 8, sorted by release year in descending order</span>
+<span class="s1">action_high_rated_movies </span><span class="s2">= </span><span class="s1">collection</span><span class="s2">.</span><span class="s1">find</span><span class="s2">({</span><span class="s3">&quot;genres&quot;</span><span class="s2">: </span><span class="s3">&quot;Action&quot;</span><span class="s2">, </span><span class="s3">&quot;imdb.rating&quot;</span><span class="s2">: {</span><span class="s3">&quot;$gt&quot;</span><span class="s2">: </span><span class="s5">8</span><span class="s2">}}).</span><span class="s1">sort</span><span class="s2">(</span><span class="s3">&quot;year&quot;</span><span class="s2">, -</span><span class="s5">1</span><span class="s2">)</span>
+<span class="s1">print</span><span class="s2">(</span><span class="s3">&quot;Action movies with IMDb rating &gt; 8, sorted by release year:&quot;</span><span class="s2">)</span>
+<span class="s0">for </span><span class="s1">movie </span><span class="s0">in </span><span class="s1">action_high_rated_movies</span><span class="s2">:</span>
+    <span class="s1">print</span><span class="s2">(</span><span class="s1">movie</span><span class="s2">)</span>
+
+<span class="s4"># 2. find top 3 movies directed by Christopher Nolan with IMDb rating greater than 8, sorted by rating</span>
+<span class="s1">nolan_movies </span><span class="s2">= </span><span class="s1">collection</span><span class="s2">.</span><span class="s1">find</span><span class="s2">({</span><span class="s3">&quot;directors&quot;</span><span class="s2">: </span><span class="s3">&quot;Christopher Nolan&quot;</span><span class="s2">, </span><span class="s3">&quot;imdb.rating&quot;</span><span class="s2">: {</span><span class="s3">&quot;$gt&quot;</span><span class="s2">: </span><span class="s5">8</span><span class="s2">}}).</span><span class="s1">sort</span><span class="s2">(</span><span class="s3">&quot;imdb.rating&quot;</span><span class="s2">, -</span><span class="s5">1</span><span class="s2">).</span><span class="s1">limit</span><span class="s2">(</span><span class="s5">3</span><span class="s2">)</span>
+<span class="s1">print</span><span class="s2">(</span><span class="s3">&quot;Top 3 Christopher Nolan movies with IMDb rating &gt; 8:&quot;</span><span class="s2">)</span>
+<span class="s0">for </span><span class="s1">movie </span><span class="s0">in </span><span class="s1">nolan_movies</span><span class="s2">:</span>
+    <span class="s1">print</span><span class="s2">(</span><span class="s1">movie</span><span class="s2">)</span>
+
+
+</pre>
+</body>
+</html>
